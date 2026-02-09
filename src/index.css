@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --color-color-gold: #B8860B;
+  /* Darker gold for better contrast on white */
+  --color-color-gold-light: #D4AF37;
+  --color-color-gold-muted: #9B761E;
+  --color-color-bg: #FAF9F6;
+  /* Bone off-white */
+  --color-color-charcoal: #121212;
+  --color-color-sand: #E7E5E4;
+  --font-heading: "Cinzel", serif;
+  --font-body: "Inter", sans-serif;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+/* Custom animation utilities - Moving these OUTSIDE @theme for Tailwind v4 compatibility */
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+:root {
+  background-color: var(--color-color-bg);
+  color: var(--color-color-charcoal);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-color-bg);
+  color: var(--color-color-charcoal);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-heading {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f4f5;
+  /* zinc-100 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  /* zinc-300 */
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8860B;
+}
+
+/* Selection */
+::selection {
+  background: #B8860B;
+  color: #ffffff;
+}
+
+/* Utility for sharp design */
+.sharp-border {
+  border-radius: 0 !important;
+}
+
+.gold-hover-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-hover-effect::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid #C9A24D;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.gold-hover-effect:hover::after {
+  opacity: 1;
+}
