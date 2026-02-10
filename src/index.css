@@ -9,8 +9,8 @@
   /* Bone off-white */
   --color-color-charcoal: #121212;
   --color-color-sand: #E7E5E4;
-  --font-heading: "Cinzel", serif;
-  --font-body: "Inter", sans-serif;
+  --font-heading: "Playfair Display", serif;
+  --font-body: "Lato", sans-serif;
 
   @keyframes fade-in {
     from {

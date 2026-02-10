@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Menu01Icon, MultiplicationSignIcon, ShoppingBag03Icon, Search01Icon } from 'hugeicons-react'
+import { Menu01Icon, Cancel01Icon, ShoppingBag03Icon, Search01Icon } from 'hugeicons-react'
 import { useCart } from '../context/CartContext'
 import { useState, useEffect } from 'react'
 
@@ -16,11 +16,16 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    // Close mobile menu when route changes
+    useEffect(() => {
+        setIsOpen(false)
+    }, [location.pathname])
+
     const navLinks = [
-        { name: 'Collection', path: '/' },
+        { name: 'Home', path: '/' },
+        { name: 'Shop', path: '/shop' },
         { name: 'Track Order', path: '/track-order' },
-        { name: 'Private Bag', path: '/cart' },
-        { name: 'Acquisition', path: '/checkout' },
+        { name: 'Cart', path: '/cart' },
     ]
 
     const { cartCount } = useCart();
@@ -42,16 +47,21 @@ const Navbar = () => {
                 {/* Desktop Navigation */}
                 <div className="hidden lg:flex items-center space-x-12">
                     {[
-                        { name: 'Collection', path: '/' },
+                        { name: 'Home', path: '/' },
+                        { name: 'Shop', path: '/shop' },
                         { name: 'Track Order', path: '/track-order' },
                     ].map((link) => (
                         <Link
                             key={link.name}
                             to={link.path}
-                            className="text-[10px] font-body font-black uppercase tracking-[0.4em] text-color-charcoal/60 hover:text-color-gold transition-all relative group py-2"
+                            className={`text-[10px] font-body font-black uppercase tracking-[0.4em] transition-all relative group py-2 ${location.pathname === link.path
+                                    ? 'text-color-gold'
+                                    : 'text-color-charcoal/60 hover:text-color-gold'
+                                }`}
                         >
                             {link.name}
-                            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-color-gold transition-all duration-500 group-hover:w-full" />
+                            <span className={`absolute bottom-0 left-0 h-[1px] bg-color-gold transition-all duration-500 ${location.pathname === link.path ? 'w-full' : 'w-0 group-hover:w-full'
+                                }`} />
                         </Link>
                     ))}
                 </div>
@@ -71,13 +81,23 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                {/* Mobile Menu Button */}
-                <button
-                    className="lg:hidden z-50 p-2"
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    {isOpen ? <MultiplicationSignIcon size={28} className="text-black" /> : <Menu01Icon size={28} className="text-black" />}
-                </button>
+                {/* Mobile Menu Button & Cart */}
+                <div className="lg:hidden flex items-center gap-4">
+                    <Link to="/cart" className="relative text-black hover:text-color-gold transition-colors">
+                        <ShoppingBag03Icon size={22} />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-2 -right-2 w-4 h-4 bg-color-gold text-[8px] flex items-center justify-center text-white border border-white font-bold">
+                                {cartCount}
+                            </span>
+                        )}
+                    </Link>
+                    <button
+                        className="z-50 p-2"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        {isOpen ? <Cancel01Icon size={28} className="text-black" /> : <Menu01Icon size={28} className="text-black" />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Overlay */}
@@ -87,8 +107,10 @@ const Navbar = () => {
                         <Link
                             key={item.name}
                             to={item.path}
-                            onClick={() => setIsOpen(false)}
-                            className="text-3xl font-heading text-black hover:text-color-gold transition-colors tracking-[0.2em]"
+                            className={`text-3xl font-heading transition-colors tracking-[0.2em] ${location.pathname === item.path
+                                    ? 'text-color-gold'
+                                    : 'text-black hover:text-color-gold'
+                                }`}
                         >
                             {item.name}
                         </Link>

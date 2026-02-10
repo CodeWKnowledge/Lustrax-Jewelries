@@ -48,7 +48,7 @@ const ProductDetailPage = () => {
                         <div className="w-full lg:w-2/5 flex flex-col justify-center animate-slide-up">
                             <span className="text-color-gold uppercase tracking-[0.4em] text-[10px] font-black mb-6 border-l border-color-gold pl-4">{product.category}</span>
                             <h1 className="text-3xl md:text-5xl font-heading text-color-charcoal mb-8 tracking-tighter leading-tight italic font-black">{product.name}</h1>
-                            <p className="text-3xl text-color-gold mb-10 font-body font-black tracking-widest">${product.price.toLocaleString()}</p>
+                            <p className="text-3xl text-color-gold mb-10 font-body font-black tracking-widest">₦{product.price.toLocaleString()}</p>
 
                             <div className="w-12 h-[1px] bg-color-sand mb-10" />
 

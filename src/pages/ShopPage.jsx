@@ -59,7 +59,7 @@ const ShopPage = () => {
                                     </button>
                                 </div>
                                 <h3 className="font-heading text-xs text-color-charcoal mb-2 tracking-widest group-hover:text-color-gold transition-colors font-black uppercase truncate">{product.name}</h3>
-                                <p className="text-color-gold font-body font-black text-[10px] tracking-[0.2em]">${product.price.toLocaleString()}</p>
+                                <p className="text-color-gold font-body font-black text-[10px] tracking-[0.2em]">₦{product.price.toLocaleString()}</p>
                             </Link>
                         ))}
                     </div>

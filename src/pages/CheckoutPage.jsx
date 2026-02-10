@@ -101,13 +101,13 @@ const CheckoutPage = () => {
                                                 <span className="text-zinc-400">{item.quantity}X</span>
                                                 <span className="text-color-charcoal">{item.name}</span>
                                             </div>
-                                            <span>${(item.price * item.quantity).toLocaleString()}</span>
+                                            <span>₦{(item.price * item.quantity).toLocaleString()}</span>
                                         </div>
                                     ))}
                                 </div>
                                 <div className="border-t border-color-sand pt-6 flex justify-between items-center">
                                     <span className="font-heading tracking-widest text-sm text-color-charcoal">Final Total</span>
-                                    <span className="font-heading text-xl font-black text-black">${cartTotal.toLocaleString()}</span>
+                                    <span className="font-heading text-xl font-black text-black">₦{cartTotal.toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>

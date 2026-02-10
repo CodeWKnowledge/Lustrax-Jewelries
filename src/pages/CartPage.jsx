@@ -68,7 +68,7 @@ const CartPage = () => {
                                                     <Add01Icon size={14} />
                                                 </button>
                                             </div>
-                                            <p className="font-heading text-sm">${(item.price * item.quantity).toLocaleString()}</p>
+                                            <p className="font-heading text-sm">₦{(item.price * item.quantity).toLocaleString()}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@ const CartPage = () => {
                                 <div className="space-y-4 text-xs font-body uppercase tracking-wider text-color-charcoal/70">
                                     <div className="flex justify-between">
                                         <span>Subtotal</span>
-                                        <span>${cartTotal.toLocaleString()}</span>
+                                        <span>₦{cartTotal.toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span>Shipping</span>
@@ -97,7 +97,7 @@ const CartPage = () => {
 
                                 <div className="pt-6 border-t border-color-sand flex justify-between items-center">
                                     <span className="font-heading tracking-widest text-sm">Total</span>
-                                    <span className="font-heading text-xl font-black">${cartTotal.toLocaleString()}</span>
+                                    <span className="font-heading text-xl font-black">₦{cartTotal.toLocaleString()}</span>
                                 </div>
 
                                 <Link
