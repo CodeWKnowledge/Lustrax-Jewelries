@@ -33,9 +33,10 @@ serve(async (req) => {
   }
 
   try {
-    const { reference, userId, cartItems, shippingDetails, totalAmount } = await req.json()
+    const { reference, userId, customerEmail, cartItems, shippingDetails, totalAmount } = await req.json()
 
-    if (!reference || !userId || !cartItems || !totalAmount) {
+    // Note: userId may be null for guest customers, but reference, cartItems, and totalAmount are mandatory
+    if (!reference || !cartItems || !totalAmount) {
       return new Response(JSON.stringify({ error: 'Incomplete transaction coordinates' }), { 
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -193,7 +194,11 @@ serve(async (req) => {
         .eq('reference', reference)
 
       // 5. DISPATCH AUTOMATED NOTIFICATIONS (Async)
-      const { data: userData } = await supabase.from('profiles').select('email, full_name, phone').eq('id', userId).single()
+      let userData = null
+      if (userId) {
+        const { data: profile } = await supabase.from('profiles').select('email, full_name, phone').eq('id', userId).single()
+        userData = profile
+      }
       const { data: adminProfiles } = await supabase.from('profiles').select('email').eq('role', 'admin')
       const adminEmails = adminProfiles?.map((a: any) => a.email).filter(Boolean) || []
 
@@ -207,8 +212,8 @@ serve(async (req) => {
           type: 'order_placed',
           order: { id: orderId, total_amount: calculatedTotal, payment_reference: reference, created_at: new Date().toISOString() },
           items: cartItems,
-          customerEmail: userData?.email,
-          customerName: userData?.full_name || 'Valued Client',
+          customerEmail: userData?.email || customerEmail || shippingDetails?.email || data?.customer?.email,
+          customerName: userData?.full_name || shippingDetails?.name || 'Valued Client',
           customerPhone: userData?.phone || shippingDetails?.phone || '',
           shippingAddress: shippingDetails,
           adminEmails
