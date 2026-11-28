@@ -35,7 +35,10 @@ serve(async (req) => {
     const cleanRef = reference.trim().replace(/^#/, '')
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!)
 
-    // Search by payment reference or UUID prefix
+    // Check if cleanRef is a valid UUID
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cleanRef)
+
+    // Build query - avoid applying ILIKE to UUID column (Postgres error: operator does not exist: uuid ~~* unknown)
     let query = supabase
       .from('orders')
       .select(`
@@ -64,10 +67,14 @@ serve(async (req) => {
           attributes
         )
       `)
-      .or(`payment_reference.ilike.%${cleanRef}%,id.ilike.%${cleanRef}%`)
-      .limit(1)
 
-    const { data: orders, error } = await query
+    if (isUuid) {
+      query = query.or(`payment_reference.ilike.%${cleanRef}%,id.eq.${cleanRef}`)
+    } else {
+      query = query.ilike('payment_reference', `%${cleanRef}%`)
+    }
+
+    const { data: orders, error } = await query.limit(1)
 
     if (error) {
       console.error('Track Order Query Error:', error)
