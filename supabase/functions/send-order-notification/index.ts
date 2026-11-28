@@ -259,11 +259,9 @@ serve(async (req) => {
       }
 
       // B. Admin Order Notification
-      // Default to the store owner's primary admin email addresses if no explicit admin profiles were passed
-      const DEFAULT_ADMINS = ['udohknowledge5@gmail.com', 'admin@lustrax-jewelries.com']
-      const adminTargets = adminEmails.length > 0 
-        ? Array.from(new Set([...adminEmails, 'udohknowledge5@gmail.com']))
-        : DEFAULT_ADMINS
+      // Primary store owner/client email is ejehrhema1@gmail.com, developer admin is udohknowledge5@gmail.com
+      const STORE_ADMINS = ['ejehrhema1@gmail.com', 'udohknowledge5@gmail.com']
+      const adminTargets = Array.from(new Set([...STORE_ADMINS, ...adminEmails]))
       const adminBody = `
         <div style="margin-bottom: 24px;">
           <div style="display: inline-block; padding: 6px 14px; background-color: #FEF3C7; color: #92400E; border-radius: 9999px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">
